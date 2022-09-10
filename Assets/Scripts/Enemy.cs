@@ -17,7 +17,7 @@ public class Enemy : MonoBehaviour
 
     void Start()
     {
-        transform.position = new Vector3(0, 10, 0);
+
     }
 
     void Update()
