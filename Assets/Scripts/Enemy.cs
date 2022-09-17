@@ -26,25 +26,26 @@ public class Enemy : MonoBehaviour
         if (transform.position.y < -10f)
         {
             float randomX = Random.Range(_minXPos, _maxXPos);
-            transform.position = new Vector3(randomX ,10, 0);
+            transform.position = new Vector3(randomX, 10, 0);
         }
 
-        if (Time.time > _canfire) 
+        if (Time.time > _canfire)
         {
             _canfire = Time.time + _fireRate;
-             Instantiate(laserEnemyPrefab, transform.position 
-                 + new Vector3(0, laserEnemyPrefab.transform.lossyScale.y - transform.lossyScale.y / 2 - 1f, 0), 
-                 Quaternion.identity);
+            Instantiate(laserEnemyPrefab, transform.position
+                + new Vector3(0, laserEnemyPrefab.transform.lossyScale.y - transform.lossyScale.y / 2 - 1f, 0),
+                Quaternion.identity);
         }
     }
-    private void OnTriggerEnter(Collider other)
+    private void OnTriggerEnter2D(Collider2D other)
     {
         if (other.tag == "Player")
         {
             Player player = other.transform.GetComponent<Player>();
-            if (player != null) player.Damage(); 
+            if (player != null) player.Damage();
         }
         else if (other.tag == "Laser") Destroy(other.gameObject);
-        Destroy(this.gameObject);
+        if (other.tag != "Enemy")
+            Destroy(this.gameObject);
     }
 }

@@ -8,12 +8,14 @@ public class SpawnManager : MonoBehaviour
     GameObject _EnemyPrefab;
     [SerializeField]
     GameObject _EnemyContainer;
+    [SerializeField]
+    float _waitTime;
 
     private bool _stopSpawning = false;
     // Start is called before the first frame update
     void Start()
     {
-        StartCoroutine(SpawnRoutine(2.0f));
+        StartCoroutine(SpawnRoutine(_waitTime));
     }
 
     // Update is called once per frame
