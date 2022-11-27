@@ -16,8 +16,11 @@ public class EnemyLaser : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         if (other.tag == "Player")
-            Destroy(other.gameObject);
-        Destroy(this.gameObject);
+        {
+            Player player = other.transform.GetComponent<Player>();
+            if (player != null) player.Damage();
+        }
+        Destroy(gameObject);
     }
 
 
