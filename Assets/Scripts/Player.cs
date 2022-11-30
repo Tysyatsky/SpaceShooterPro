@@ -10,12 +10,16 @@ public class Player : MonoBehaviour
     [SerializeField]
     GameObject _LaserPrefab;
     [SerializeField]
+    GameObject _TripleShotPrefab;
+    [SerializeField]
     private float _fireRate = 0.15f;
     private float _canFire = -1f;
     [SerializeField]
     private int _lives = 3;
 
     private SpawnManager _spawnManager;
+    [SerializeField]
+    private bool _IsTripleActive = false;
 
     void Start()
     {
@@ -62,18 +66,38 @@ public class Player : MonoBehaviour
         }
     }
     void FireLaser()
-    {
+    {   
         _canFire = Time.time + _fireRate;
-        Instantiate(_LaserPrefab, transform.position + new Vector3(0, transform.lossyScale.y / 2 + _LaserPrefab.transform.lossyScale.y + 0.2f, 0), Quaternion.identity);
+        if(_IsTripleActive)
+        {
+            Instantiate(_TripleShotPrefab, this.transform.position + new Vector3(0, transform.lossyScale.y - 1,0), Quaternion.identity);
+        }
+        else
+        {
+            Instantiate(_LaserPrefab, transform.position + new Vector3(0, transform.lossyScale.y / 2 + _LaserPrefab.transform.lossyScale.y + 0.2f, 0), Quaternion.identity);
+        }
     }
 
     public void Damage()
     {
+        Debug.Log("Damage!");
         if (--_lives < 1)
         {
             _spawnManager.OnPlayerDeath();
             Destroy(this.gameObject);
+            Debug.Log("You died!");
         }
     }
 
+    public void TripleShotActive()
+    {
+        _IsTripleActive = true;
+        StartCoroutine(TripleShotPowerDownRoutine());
+    }
+
+    IEnumerator TripleShotPowerDownRoutine()
+    {   
+        yield return new WaitForSeconds(5.0f);
+        _IsTripleActive = false;
+    }
 }

@@ -17,9 +17,10 @@ public class EnemyLaser : MonoBehaviour
     {
         if (other.tag == "Player")
         {
-            other.gameObject.GetComponent<Player>().Damage();
-            Destroy(this.gameObject);
-        }      
+            Player player = other.transform.GetComponent<Player>();
+            if (player != null) player.Damage();
+        }
+        Destroy(gameObject);
     }
 
 
