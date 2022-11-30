@@ -12,8 +12,6 @@ public class SpawnManager : MonoBehaviour
     private GameObject _EnemyContainer;
     [SerializeField]
     private GameObject _TripleShotPrefab;
-    
-
     private bool _stopSpawning = false;
     // Start is called before the first frame update
     void Start()
