@@ -5,6 +5,8 @@ using UnityEngine;
 public class PowerUp : MonoBehaviour
 {
     // Start is called before the first frame update
+    [SerializeField]
+    private float _speed = 2.0f;
     void Start()
     {
         
@@ -13,12 +15,22 @@ public class PowerUp : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        // move down at a speed of 3
-        // when we leave the screen destroy
-        // adjustible speed
+        transform.Translate(0, -_speed * Time.deltaTime, 0);
     }
 
-    // on trigger collision
-    // only be collectable by the player (tag)
-    // on collected destroy
+    private void OnBecameInvisible()
+    {
+        Destroy(gameObject);
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if(other.tag == "Player")
+        {
+            var player = other.GetComponent<Player>();
+            if(player != null)
+                player.TripleShotActive();
+            Destroy(gameObject);
+        }
+    }
 }
